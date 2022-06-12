@@ -98,24 +98,34 @@ export default function Home() {
       console.log(response.data.data);
 
       const alert = (
-        <Alert variant="success" className="py-1">
+        <Alert variant="danger" className="py-1">
           Login Failed
         </Alert>
       );
+
+      if (response.data.message === "Email tidak ditemukan"){
+        setMessageLogin(
+          <Alert variant="danger" className="py-1">
+          Email not registered
+        </Alert>
+        );
+      }
 
       if (response.data.status === "success") {
         dispatch({
           type: "LOGIN_SUCCESS",
           payload: response.data.data,
         });
-    
-        setMessageLogin(alert);
 
         setFormLogin({
           email: "",
           password: "",
         });
+      }else{
+        setMessageLogin(alert);
       }
+
+
 
       if (response.data.data.status === "admin") {
         navigate("/transaction");
