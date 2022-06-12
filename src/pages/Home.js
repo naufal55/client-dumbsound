@@ -25,7 +25,8 @@ export default function Home() {
   //    const [confirmDelete, setConfirmDelete] = useState(null);
   const [state, dispatch] = useContext(UserContext);
   const [message, setMessage] = useState(null);
-  const [trans, setTrans] = useState(false);
+  const [messageLogin, setMessageLogin] = useState(null);
+  // const [trans, setTrans] = useState(false);
   const navigate = useNavigate();
 
 
@@ -96,11 +97,19 @@ export default function Home() {
       const response = await API.post("/login", body, config);
       console.log(response.data.data);
 
+      const alert = (
+        <Alert variant="success" className="py-1">
+          Login Failed
+        </Alert>
+      );
+
       if (response.data.status === "success") {
         dispatch({
           type: "LOGIN_SUCCESS",
           payload: response.data.data,
         });
+    
+        setMessageLogin(alert);
 
         setFormLogin({
           email: "",
@@ -320,6 +329,7 @@ export default function Home() {
       )}
 
       <Login
+        message={messageLogin && messageLogin}
         show={show.login}
         handleClose={() => setShow({ login: false })}
         handleHere={() => setShow({ register: true })}
