@@ -121,7 +121,8 @@ export default function Home() {
           email: "",
           password: "",
         });
-      }else{
+      }
+      if (response.data.status === "failed"){
         setMessageLogin(alert);
       }
 
